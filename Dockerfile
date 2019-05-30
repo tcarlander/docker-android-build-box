@@ -46,7 +46,6 @@ RUN apt-get update -qq > /dev/null && \
         autoconf \
         curl \
         git \
-        golang-go \
         gpg-agent \
         lib32stdc++6 \
         lib32z1 \
@@ -163,8 +162,6 @@ RUN echo "Installing sdk tools ${ANDROID_SDK_TOOLS_VERSION}" && \
         "add-ons;addon-google_apis-google-18" \
         "add-ons;addon-google_apis-google-17" \
         "add-ons;addon-google_apis-google-16" > /dev/null && \
-    echo "Installing CMAKE 3.10" && \
-    yes | "$ANDROID_HOME"/tools/bin/sdkmanager "cmake;3.10.2.4988404" &&\
     echo "Installing emulator " && \
     yes | "$ANDROID_HOME"/tools/bin/sdkmanager "emulator" > /dev/null && \
     echo "Installing kotlin" && \
@@ -178,6 +175,12 @@ RUN echo "Installing sdk tools ${ANDROID_SDK_TOOLS_VERSION}" && \
     rm -f flutter.tar.xz && \
     flutter config --no-analytics
 
+RUN echo "Installing CMAKE 3.10" && \
+    yes | "$ANDROID_HOME"/tools/bin/sdkmanager "cmake;3.10.2.4988404" &&\
+    apt-get update -qq > /dev/null && \
+    echo "Installing GoLang" && \
+    apt-get install -qq --no-install-recommends \
+    golang-go
 
 # Copy sdk license agreement files.
 RUN mkdir -p $ANDROID_HOME/licenses
